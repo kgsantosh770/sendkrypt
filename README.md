@@ -1,6 +1,6 @@
 # SendKrypt
 
-SendKrypt is a web3 application for sending ethers across crypto wallets. This project is created on the test network and in future it may migrate to mainnet.
+SendKrypt is a web3 application for sending ethers across crypto accounts. This project is created on the test network and in future it may migrate to mainnet.
 
 ## Exclusive feature
 
