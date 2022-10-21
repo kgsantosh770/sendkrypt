@@ -1,10 +1,14 @@
 import Logo from '../assets/images/ether.png';
 
-export default function Header() {
+interface HeaderProps {
+    className?: string,
+}
+
+export default function Header(props: HeaderProps) {
     return (
-        <header className='py-8 px-10 flex justify-between font-semibold'>
+        <header className={`py-8 px-10 flex justify-between font-semibold ${props.className}`}>
             <div className='flex items-center'>
-                <img src={Logo} alt='logo' title='sendkrypt"'
+                <img src={Logo} alt='logo' title='sendkrypt'
                     className='medium-icon mr-3'
                 />
                 <h4 className='text-3xl font-bold'>SendKrypt</h4>
