@@ -5,9 +5,9 @@ export default function SendKryptCard() {
         walletAddress: undefined,
     }
     return (
-        <div className='relative max-w-sm px-4 py-8 rounded-lg min-h-[210px] bg-gradient-to-r from-[#833a4b] via-[#fd1d1d] to-[#fcb045]'>
+        <div className='md:mb-7 relative mx-auto w-[300px] px-4 py-5 rounded-lg min-h-[180px] bg-gradient-to-r from-[#833a4b] via-[#fd1d1d] to-[#fcb045]'>
             <span>SendKrypt Card</span>
-            <img src={Logo} alt='sendkrypt card' className='medium-icon float-right' />
+            <img src={Logo} alt='sendkrypt card' className='small-icon float-right' />
             <div className='absolute bottom-5'>
                 {dummyData.walletAddress === undefined ?
                     "Connect wallet to activate card." :

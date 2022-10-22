@@ -6,7 +6,7 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
     return (
-        <header className={`py-8 px-10 flex justify-between font-semibold ${props.className}`}>
+        <header className={`py-8 flex justify-between font-semibold ${props.className}`}>
             <div className='flex items-center'>
                 <img src={Logo} alt='logo' title='sendkrypt'
                     className='medium-icon mr-3'

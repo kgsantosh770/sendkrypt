@@ -3,15 +3,23 @@ export default function ConnectWallet() {
         walletAddress: undefined,
     }
     return (
-        <div className="text-center">
-            <span className="text-2xl font-bold mr-3 italic">SendKrypt</span>
-            <span>offers you secure crypto currency transaction service. You can check your transactions anytime, anywhere.</span>
-            <p className="mt-6">The developer of SendKrypt is looking for a job as blockchain developer. 🙂</p>
+        <div>
+            <p className="text-5xl italic mb-10 leading-tight">SendKrypt <br />across the world</p>
+            <div className="w-full lg:w-2/3">Secure crypto currency transaction service. You can check your transactions anytime, anywhere.</div>
+            <table className="mt-8 w-full border-separate">
+                <tr className="text-center">
+                    <td className="w-[33%] px-3 py-4 rounded-l-md border border-white">Ethereum</td>
+                    <td className="w-[33%] px-3 py-4 border border-white">Metamask</td>
+                    <td className="w-[33%] px-3 py-4 rounded-r-md border border-white">Web 3.0</td>
+                </tr>
+                <tr className="text-center">
+                    <td className="w-[33%] px-3 py-4 rounded-l-md border border-white">Security</td>
+                    <td className="w-[33%] px-3 py-4 border border-white">Reliability</td>
+                    <td className="w-[33%] px-3 py-4 rounded-r-md border border-white">Low fees</td>
+                </tr>
+            </table>
             {dummyData.walletAddress === undefined &&
-                <>
-                    <p className="mt-6">Connect to your metamask wallet to start sending cryptos.</p>
-                    <button className="bg-blue-600 block mx-auto mt-8 px-10 py-4 rounded-full hover:bg-blue-700">Connect Wallet</button>
-                </>
+                <button className="bg-blue-600 lg:max-w-max block mx-auto m-10 lg:mb-0 px-10 py-4 rounded-full hover:bg-blue-700 w-full">Connect Wallet</button>
             }
         </div>
     )
