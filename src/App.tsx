@@ -2,6 +2,7 @@ import ConnectWallet from "./components/ConnectWallet";
 import Header from "./components/Header";
 import SendEtherForm from "./components/SendEtherForm";
 import SendKryptCard from "./components/SendKryptCard";
+import TransactionGroup from "./components/TransactionGroup";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <SendEtherForm />
         </div>
       </div>
+      <TransactionGroup title={"Recent Transactions"} scrollType="horizontal" />
     </div>
   );
 }
