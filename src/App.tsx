@@ -18,6 +18,7 @@ function App() {
         </div>
       </div>
       <TransactionGroup title={"Recent Transactions"} scrollType="horizontal" />
+      <TransactionGroup title={"My Transactions"} scrollType="horizontal" />
     </div>
   );
 }

@@ -76,7 +76,7 @@ export default function TransactionGroup(props: Props) {
                 <i className="fa fa-angle-right"></i>
             </button> */}
 
-            <h3 className="text-xl md:text-2xl lg:text-4xl italic mb-20">{props.title}</h3>
+            <h3 className="text-xl md:text-2xl lg:text-4xl italic mb-10">{props.title}</h3>
             <ul
                 // ref={scroll}
                 className={props.scrollType === 'vertical' ? verticalScroll : horizontalScroll}>

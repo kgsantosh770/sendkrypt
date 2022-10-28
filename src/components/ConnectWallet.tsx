@@ -8,14 +8,14 @@ export default function ConnectWallet() {
             <div className="w-full lg:w-2/3">Secure crypto currency transaction service. You can check your transactions anytime, anywhere.</div>
             <table className="mt-8 w-full border-separate">
                 <tr className="text-center">
-                    <td className="w-[33%] px-3 py-4 rounded-l-md border border-white">Ethereum</td>
+                    <td className="w-[33%] px-3 py-4 rounded-tl-md border border-white">Ethereum</td>
                     <td className="w-[33%] px-3 py-4 border border-white">Metamask</td>
-                    <td className="w-[33%] px-3 py-4 rounded-r-md border border-white">Web 3.0</td>
+                    <td className="w-[33%] px-3 py-4 rounded-tr-md border border-white">Web 3.0</td>
                 </tr>
                 <tr className="text-center">
-                    <td className="w-[33%] px-3 py-4 rounded-l-md border border-white">Security</td>
+                    <td className="w-[33%] px-3 py-4 rounded-bl-md border border-white">Security</td>
                     <td className="w-[33%] px-3 py-4 border border-white">Reliability</td>
-                    <td className="w-[33%] px-3 py-4 rounded-r-md border border-white">Low fees</td>
+                    <td className="w-[33%] px-3 py-4 rounded-br-md border border-white">Low fees</td>
                 </tr>
             </table>
             {dummyData.walletAddress === undefined &&
