@@ -13,9 +13,9 @@ const main = async () => {
     console.log('My balance: ',await owner.getBalance());
     console.log("Friend balance: ",await friend.getBalance());
     
-    console.log("Sending 0.01 ether to friend");
-    const wei = hre.ethers.utils.parseEther("1");
-    let txn = await contract.sendEther(friend.address, {value: wei});
+    console.log("Sending 1 ether to friend");
+    const amount = hre.ethers.utils.parseEther("1");
+    let txn = await contract.sendEther(friend.address, "Thor", "Simple transfer to a friend.", {value: amount});
     await txn.wait();   
     
     console.log("After transfer:");
