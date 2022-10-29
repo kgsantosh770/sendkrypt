@@ -57,12 +57,12 @@ export default function TransactionGroup(props: Props) {
     const transactionCards = dummyData.transcations.map(
         transaction =>
             <li key={transaction} className={props.scrollType === 'vertical' ? 'block' : 'inline-block'}>
-                <TransactionCard transactionId={transaction} />
+                <TransactionCard cardType={props.scrollType} transactionId={transaction} />
             </li>
     )
 
     const horizontalScroll = "overflow-x-auto whitespace-nowrap no-scrollbar";
-    const verticalScroll = "flex justify-center flex-wrap";
+    const verticalScroll = "grid grid-cols-3";
 
     return (
         <div className="my-16 relative">
@@ -70,16 +70,16 @@ export default function TransactionGroup(props: Props) {
             {props.scrollType === 'horizontal' &&
                 <div className="absolute top-2 right-0">
                     <button
-                        className="prev border border-white rounded-md p-1.5 mr-4"
+                        className="prev bg-white rounded-md p-1.5 mr-4"
                         onClick={() => slide(-90)}
                     >
-                        <img src={ForwardArrowIcon} alt="prev" className="rotate-180" />
+                        <img src={ForwardArrowIcon} alt="prev" className="rotate-180 w-5 h-5" />
                     </button>
                     <button
-                        className="next border border-white rounded-md p-1.5"
+                        className="next bg-white rounded-md p-1.5"
                         onClick={() => slide(+90)}
                     >
-                        <img src={ForwardArrowIcon} alt="prev"/>
+                        <img src={ForwardArrowIcon} alt="next" className="w-5 h-5"/>
                     </button>
                 </div>
             }

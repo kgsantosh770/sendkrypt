@@ -1,7 +1,12 @@
 import RightArrowIcon from '../assets/images/right-arrow.png';
 
 interface CardProps {
+    cardType: string,
     transactionId: number,
+}
+
+TransactionCard.defaultProps = {
+    cardType: 'vertical',
 }
 
 export default function TransactionCard(props: CardProps) {
@@ -31,7 +36,7 @@ export default function TransactionCard(props: CardProps) {
     }
 
     return (
-        <div className="bg-customblue-100 relative mr-14 my-0 lg:mt-5 w-[290px] rounded-lg shadow-lg shadow-gray-800 overflow-hidden">
+        <div className={`bg-customblue-100 relative ${props.cardType==='vertical' ? 'mx-auto' : 'mr-14'} my-0 lg:mb-10 lg:mt-5 w-[290px] rounded-lg shadow-lg shadow-gray-800 overflow-hidden`}>
             <div className="overflow-hidden">
                 <img src={dummyData.image} alt="card" className="hover:scale-110 w-full h-full" />
             </div>
