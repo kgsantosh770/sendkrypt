@@ -1,6 +1,6 @@
 interface IWallet {
     isWalletConnected: boolean,
-    accountAddress: string | undefined,
+    accountAddress: string,
     connectToWallet: ()=>Promise<void>
 }
 

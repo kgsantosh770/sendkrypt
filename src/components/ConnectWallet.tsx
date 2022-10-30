@@ -1,7 +1,8 @@
+import { useWalletContext } from "../features/crypto-wallet/WalletConnect";
+
 export default function ConnectWallet() {
-    const dummyData = {
-        walletAddress: undefined,
-    }
+    const { isWalletConnected, connectToWallet } = useWalletContext();
+
     return (
         <div>
             <p className="text-5xl italic mb-10 leading-tight">SendKrypt <br />across the world</p>
@@ -20,8 +21,12 @@ export default function ConnectWallet() {
                     </tr>
                 </tbody>
             </table>
-            {dummyData.walletAddress === undefined &&
-                <button className="bg-blue-600 lg:max-w-max block mx-auto m-10 lg:mb-0 px-10 py-4 rounded-full hover:bg-blue-700 w-full">Connect Wallet</button>
+            {!isWalletConnected &&
+                <button
+                    onClick={connectToWallet}
+                    className="bg-blue-600 lg:max-w-max block mx-auto m-10 lg:mb-0 px-10 py-4 rounded-full hover:bg-blue-700 w-full">
+                    Connect Wallet
+                </button>
             }
         </div>
     )

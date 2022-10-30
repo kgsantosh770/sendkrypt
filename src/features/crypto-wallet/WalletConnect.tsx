@@ -1,10 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 declare var window: IEthWindow;
 
 const initialWalletState: IWallet = {
     isWalletConnected: false,
-    accountAddress: undefined,
-    connectToWallet: async()=>{},
+    accountAddress: '',
+    connectToWallet: async () => { },
 }
 
 const WalletContext = createContext<IWallet>(initialWalletState);
@@ -15,6 +15,23 @@ function WalletProvider({ children }: IProps) {
     const [isWalletConnected, setisWalletConnected] = useState(initialWalletState.isWalletConnected);
     const [accountAddress, setAccountAddress] = useState(initialWalletState.accountAddress);
 
+    const isConnected = async() => {
+        if (!ethereum) return false;
+        try {
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+            if (accounts.length !== 0) {
+                setAccountAddress(accounts[0]);
+                setisWalletConnected(true);
+                return true;
+            }
+            else
+                return false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     const connectToWallet = async () => {
         if (!ethereum) return;
         try {
@@ -24,7 +41,12 @@ function WalletProvider({ children }: IProps) {
         } catch (error) {
             console.log(error);
         }
-    }    
+    }
+
+    useEffect(() => {
+        isConnected();
+    },[])
+
 
     return (
         <WalletContext.Provider value={{ isWalletConnected, accountAddress, connectToWallet } as IWallet} >
