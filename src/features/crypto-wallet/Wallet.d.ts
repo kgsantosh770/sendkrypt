@@ -7,7 +7,3 @@ interface IWallet {
 interface IProps {
     children: ReactNode,
 }
-
-interface IEthWindow extends Window {
-    ethereum: any,
-}

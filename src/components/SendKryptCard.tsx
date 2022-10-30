@@ -1,5 +1,5 @@
 import Logo from '../assets/images/ether.png';
-import { addressShortener } from '../Utils';
+import { addressShortener } from '../utils/Utils';
 import { useWalletContext } from '../features/crypto-wallet/WalletConnect';
 
 export default function SendKryptCard() {

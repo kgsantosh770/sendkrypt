@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-declare var window: IEthWindow;
+import { ethereum } from "../../utils/Constants";
 
 const initialWalletState: IWallet = {
     isWalletConnected: false,
@@ -8,8 +8,6 @@ const initialWalletState: IWallet = {
 }
 
 const WalletContext = createContext<IWallet>(initialWalletState);
-const { ethereum } = window;
-
 
 function WalletProvider({ children }: IProps) {
     const [isWalletConnected, setisWalletConnected] = useState(initialWalletState.isWalletConnected);
