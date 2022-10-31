@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
-import sendEther from "../features/send-ethers/SendEther";
+import { sendEther } from "../features/ether-transfer-contract/ContractFunctions";
 
 interface IFormData {
   receiver: string,

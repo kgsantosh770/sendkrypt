@@ -1,9 +1,9 @@
-import contractData from "./abi.json";
+import { SEND_ETHER_CONTRACT_ABI } from '../../utils/Constants';
 import { ethereum } from '../../utils/Constants';
 import { ethers } from "ethers";
 
 const CONTRACT_ADDRESS = '0x5CB150e65a803948b297C536c2f1eF229432738f';
-const CONTRACT_ABI = contractData.abi;
+const CONTRACT_ABI = SEND_ETHER_CONTRACT_ABI;
 
 const getContract = () => {
     if (!ethereum) return false;
@@ -17,12 +17,25 @@ const getContract = () => {
     }
 }
 
+const getAllTransactions = () => {
+    try {
+        const contract = getContract();
+        if (!contract) return false;
+        const eventFilter = contract.filters.EthTransfer();
+        const events = contract.queryFilter(eventFilter);
+        return events;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 const sendEther = async (to: string, amount: number, keyword: string, msg: string) => {
     const weiAmount = ethers.utils.parseEther(amount.toString());
     try {
         const contract = getContract();
         if (!contract) return false;
-        const txn = await contract.sendEther(to, keyword, msg, {value: weiAmount});
+        const txn = await contract.sendEther(to, keyword, msg, { value: weiAmount });
         await txn.wait();
         return true;
     } catch (error) {
@@ -31,4 +44,5 @@ const sendEther = async (to: string, amount: number, keyword: string, msg: strin
     }
 }
 
-export default sendEther;
+
+export { sendEther, getAllTransactions };

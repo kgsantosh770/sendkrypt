@@ -2,10 +2,12 @@ import { useRef, useState } from "react"
 
 import TransactionCard from "./TransactionCard"
 import ForwardArrowIcon from "../assets/images/forward.png";
+import { ethers } from "ethers";
 
 interface Props {
     title: string,
     scrollType: 'horizontal' | 'vertical',
+    transactions: ethers.Event[],
 }
 
 TransactionGroup.defaultProps = {
@@ -13,7 +15,6 @@ TransactionGroup.defaultProps = {
 }
 
 export default function TransactionGroup(props: Props) {
-
     let scroll = useRef<HTMLUListElement>(null);
     const [scrollx, setScrollx] = useState(0);
 
@@ -26,14 +27,10 @@ export default function TransactionGroup(props: Props) {
         }
     };
 
-    const dummyData = {
-        transcations: [1, 2, 3, 4, 5, 6, 7, 8],
-    }
-
-    const transactionCards = dummyData.transcations.map(
-        transaction =>
-            <li key={transaction} className={props.scrollType === 'vertical' ? 'block' : 'inline-block'}>
-                <TransactionCard cardType={props.scrollType} transactionId={transaction} />
+    const transactionCards = props.transactions.map(
+        (transaction, index) =>
+            <li key={index} className={props.scrollType === 'vertical' ? 'block' : 'inline-block'}>
+                <TransactionCard cardType={props.scrollType} transaction={transaction} />
             </li>
     )
 
