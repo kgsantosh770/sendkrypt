@@ -16,7 +16,6 @@ export default function TransactionGroup(props: Props) {
 
     let scroll = useRef<HTMLUListElement>(null);
     const [scrollx, setScrollx] = useState(0);
-    const [scrollEnd, setScrollEnd] = useState(false);
 
     const slide = (shift: number) => {
         if (scroll.current) {
@@ -24,29 +23,6 @@ export default function TransactionGroup(props: Props) {
             scroll.current.scrollLeft += shift;
 
             setScrollx(scrollx + shift);
-
-            if (
-                Math.floor(scroll.current.scrollWidth - scroll.current.scrollLeft) <=
-                scroll.current.offsetWidth
-            ) {
-                setScrollEnd(true);
-            } else {
-                setScrollEnd(false);
-            }
-        }
-    };
-
-    const scrollCheck = () => {
-        if (scroll.current) {
-            setScrollx(scroll.current.scrollLeft);
-            if (
-                Math.floor(scroll.current.scrollWidth - scroll.current.scrollLeft) <=
-                scroll.current.offsetWidth
-            ) {
-                setScrollEnd(true);
-            } else {
-                setScrollEnd(false);
-            }
         }
     };
 
