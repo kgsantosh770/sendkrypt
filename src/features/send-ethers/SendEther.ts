@@ -7,9 +7,14 @@ const CONTRACT_ABI = contractData.abi;
 
 const getContract = () => {
     if (!ethereum) return false;
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner();
-    return new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+    try {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        return new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
 }
 
 const sendEther = async (to: string, amount: number, keyword: string, msg: string) => {

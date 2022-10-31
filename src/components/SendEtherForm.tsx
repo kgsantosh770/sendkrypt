@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 import sendEther from "../features/send-ethers/SendEther";
 
 interface IFormData {
@@ -9,20 +9,23 @@ interface IFormData {
 }
 
 export default function SendEtherForm() {
-  const [formData, setFormData] = useState<IFormData>({
+  const initialFormData = {
     receiver: '',
     amount: '',
     keyword: '',
     msg: '',
-  });
+  }
+  const [formData, setFormData] = useState<IFormData>(initialFormData);
 
   const blockInvalidChar = (e: KeyboardEvent) =>
     ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     //form validation
+    e.preventDefault();
     const amount = Number(formData.amount);
-    sendEther(formData.receiver, amount, formData.keyword, formData.msg);
+    sendEther(formData.receiver, amount, formData.keyword, formData.msg)
+      .then(() => setFormData(initialFormData));
   }
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +39,10 @@ export default function SendEtherForm() {
   }
 
   return (
-    <form className="mt-6 mb-16 lg:my-6 bg-customblue-200 py-6 px-4 rounded-2xl max-w-md mx-auto" onSubmit={handleSubmit}>
+    <form
+      className="mt-6 mb-16 lg:my-6 bg-customblue-200 py-6 px-4 rounded-2xl max-w-md mx-auto"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         name="receiver"
@@ -64,7 +70,7 @@ export default function SendEtherForm() {
       />
       <input
         type="text"
-        name="message"
+        name="msg"
         value={formData.msg}
         onChange={handleInputChange}
         className="bg-customblue-100 mb-5 block w-full shadow-black shadow-sm rounded-lg min-h-max px-5 py-2.5"
@@ -75,7 +81,7 @@ export default function SendEtherForm() {
         type="submit"
         value="Send"
         onChange={handleInputChange}
-        className="bg-customblue-100 mt-5 w-1/2 block mx-auto border-white border shadow-black shadow-md py-3 px-3 rounded-xl"
+        className="bg-customblue-100 cursor-pointer mt-5 w-1/2 block mx-auto border-white border shadow-black shadow-md py-3 px-3 rounded-xl"
       />
     </form>
   )
