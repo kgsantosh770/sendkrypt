@@ -1,5 +1,7 @@
 import { ethers } from 'ethers';
+import { useEffect, useState } from 'react';
 import RightArrowIcon from '../assets/images/right-arrow.png';
+import fetchImage from '../features/fetch-keyword-image/FetchImage';
 import { addressShortener } from '../utils/Utils';
 
 interface CardProps {
@@ -12,15 +14,15 @@ TransactionCard.defaultProps = {
 }
 
 export default function TransactionCard(props: CardProps) {
+    const [image, setImage] = useState(null)
     const txn = {
         fromAddress: props.transaction.args ? addressShortener(props.transaction.args[0].from) : 'Anonymous',
         toAddress: props.transaction.args ? addressShortener(props.transaction.args[0].to) : 'Anonymous',
         message: props.transaction.args ? props.transaction.args[0].message : 'Unknown message',
-        // timeStamp: new Date(),
-        amount: props.transaction.args ? props.transaction.args[0].amount : 'Unknown',
+        timeStamp: new Date(),
+        amount: props.transaction.args ? ethers.utils.formatEther(props.transaction.args[0].amount) : 'Unknown amount',
         currency: "eth",
-        keyword: props.transaction.args ? props.transaction.args[0].keywork : 'Unknown keyword',
-        // image: 'https://i.imgur.com/4Q3uEQ1.jpeg',
+        keyword: props.transaction.args ? props.transaction.args[0].keywork : null,
     }
 
     const getDateFromTimestamp = (timestamp: Date) => {
@@ -38,23 +40,34 @@ export default function TransactionCard(props: CardProps) {
         return formattedTime;
     }
 
+    useEffect(() => {
+        fetchImage(txn.keyword).then(
+            (result) => setImage(result[0].urls.small)
+        )
+    }, [])
+
+    console.log(txn.amount);
+
     return (
-        <div className={`bg-customblue-100 relative ${props.cardType==='vertical' ? 'mx-auto' : 'mr-14'} my-0 lg:mb-10 lg:mt-5 w-[290px] rounded-lg shadow-lg shadow-gray-800 overflow-hidden`}>
-            {/* <div className="overflow-hidden">
-                <img src={txn.image} alt="card" className="hover:scale-110 w-full h-full" />
-            </div> */}
-            <div className="p-4">
-                {/* <div className="flex justify-between items-center">
+        <div className={`flex flex-col bg-customblue-100 relative ${props.cardType === 'vertical' ? 'mx-auto' : 'mr-14'} my-0 lg:mb-10 lg:mt-5 w-[290px] rounded-lg shadow-lg shadow-gray-800 overflow-hidden`}>
+            {
+                image &&
+                <div className="overflow-hidden">
+                    <img src={image} alt="card" className="hover:scale-110 w-full h-full max-h-[200px]" />
+                </div>
+            }
+            <div className="relative grow shrink basis-auto">
+                <div className="p-4 flex justify-between items-center bg-gray-500">
                     <span>{getDateFromTimestamp(txn.timeStamp)}</span>
                     <span>{getTimeFromTimestamp(txn.timeStamp)}</span>
-                </div> */}
-                <p className="pt-4 whitespace-pre-wrap">{txn.message.charAt(0).toLocaleUpperCase() + txn.message.slice(1,)}</p>
-                <div className="flex justify-between items-center pt-1">
+                </div>
+                <p className="p-4 pb-28 whitespace-pre-wrap italic">{txn.message.charAt(0).toLocaleUpperCase() + txn.message.slice(1,)}</p>
+                <p className='absolute bottom-9 w-full p-4 text-2xl text-center font-bold pt-3'>{`${txn.amount} ${txn.currency.toLocaleUpperCase()}`}</p>
+                <div className="flex justify-between items-center p-4 w-full absolute bottom-1">
                     <span>{txn.fromAddress}</span>
                     <img src={RightArrowIcon} alt="right-arrow" className="inline-block w-6 h-4 mt-1" />
                     <span>{txn.toAddress}</span>
                 </div>
-                {/* <p className='text-2xl text-center font-bold pt-3'>{txn.amount} {txn.currency.toLocaleUpperCase()}</p> */}
             </div>
         </div>
     )

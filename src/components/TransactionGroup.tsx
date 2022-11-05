@@ -29,7 +29,7 @@ export default function TransactionGroup(props: Props) {
 
     const transactionCards = props.transactions.map(
         (transaction, index) =>
-            <li key={index} className={props.scrollType === 'vertical' ? 'block' : 'inline-block'}>
+            <li key={index} className={`flex {props.scrollType === 'vertical' ? 'block' : 'inline-block'}`}>
                 <TransactionCard cardType={props.scrollType} transaction={transaction} />
             </li>
     )
@@ -59,7 +59,7 @@ export default function TransactionGroup(props: Props) {
 
             <ul
                 ref={scroll}    
-                className={props.scrollType === 'vertical' ? verticalScroll : horizontalScroll}>
+                className={`flex ${props.scrollType === 'vertical' ? verticalScroll : horizontalScroll}`}>
                 {transactionCards}
             </ul>
         </div>
