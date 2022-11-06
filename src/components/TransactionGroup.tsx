@@ -20,9 +20,7 @@ export default function TransactionGroup(props: Props) {
 
     const slide = (shift: number) => {
         if (scroll.current) {
-            console.log(scroll.current.scrollLeft);
             scroll.current.scrollLeft += shift;
-
             setScrollx(scrollx + shift);
         }
     };

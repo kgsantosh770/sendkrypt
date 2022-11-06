@@ -46,8 +46,6 @@ export default function TransactionCard(props: CardProps) {
         )
     }, [])
 
-    console.log(txn.amount);
-
     return (
         <div className={`flex flex-col bg-customblue-100 relative ${props.cardType === 'vertical' ? 'mx-auto' : 'mr-14'} my-0 lg:mb-10 lg:mt-5 w-[290px] rounded-lg shadow-lg shadow-gray-800 overflow-hidden`}>
             {
