@@ -26,13 +26,24 @@ export default function TransactionGroup(props: Props) {
     };
 
     const transactionCards = props.transactions.map(
-        (transaction, index) =>
-            <li key={index} className={`flex {props.scrollType === 'vertical' ? 'block' : 'inline-block'}`}>
-                <TransactionCard cardType={props.scrollType} transaction={transaction} />
-            </li>
+        (transaction, index) => {
+            index = index+1;
+            let justifyClasses;
+            if(index % 3 === 1 || index === 0){
+                justifyClasses = "justify-self-start";
+            }
+            else if(index % 3 === 0 && index !== 0){
+                justifyClasses = "justify-self-end";
+            }
+            return (
+                <li key={index} className={`flex ${justifyClasses}`}>
+                    <TransactionCard cardType={props.scrollType} transaction={transaction} />
+                </li>
+            )
+        }
     )
 
-    const horizontalScroll = "overflow-x-auto whitespace-nowrap no-scrollbar";
+    const horizontalScroll = "flex overflow-x-auto whitespace-nowrap no-scrollbar";
     const verticalScroll = "grid grid-cols-3";
 
     return (
@@ -50,14 +61,14 @@ export default function TransactionGroup(props: Props) {
                         className="next bg-white rounded-md p-1.5"
                         onClick={() => slide(+90)}
                     >
-                        <img src={ForwardArrowIcon} alt="next" className="w-5 h-5"/>
+                        <img src={ForwardArrowIcon} alt="next" className="w-5 h-5" />
                     </button>
                 </div>
             }
 
             <ul
-                ref={scroll}    
-                className={`flex ${props.scrollType === 'vertical' ? verticalScroll : horizontalScroll}`}>
+                ref={scroll}
+                className={props.scrollType === 'vertical' ? verticalScroll : horizontalScroll}>
                 {transactionCards}
             </ul>
         </div>

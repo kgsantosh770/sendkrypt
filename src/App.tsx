@@ -18,11 +18,16 @@ function App() {
       .then((events) => {
         if (events.length > 0) setAllTransactions(events);
       })
+  }, [])
+
+  useEffect(() => {
+    console.log(allTransactions);
     const transactions = filterMyTransactions();
+    console.log(transactions);
     if (transactions.length > 0) {
       setMyTransactions(transactions);
     }
-  }, [])
+  }, [allTransactions])
 
   async function fetchAllTransactions(): Promise<ethers.Event[]> {
     let transactions: ethers.Event[] | boolean = await getAllTransactions();
@@ -33,12 +38,12 @@ function App() {
   }
 
   function filterMyTransactions(): ethers.Event[] {
-    allTransactions?.filter((transaction: ethers.Event) => {
-      if (transaction.args && transaction.args[0] && transaction.args[0].from === accountAddress) {
+    const transactions = allTransactions?.filter((transaction: ethers.Event) => {
+      if (transaction.args && transaction.args[0] && transaction.args[0].from.toLowerCase() === accountAddress) {
         return transaction;
       }
     });
-    return [];
+    return transactions;
   }
 
   return (
