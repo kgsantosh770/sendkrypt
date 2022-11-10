@@ -7,11 +7,12 @@ import SendKryptCard from "./components/SendKryptCard";
 import TransactionGroup from "./components/TransactionGroup";
 import { getAllTransactions } from "./features/ether-transfer-contract/ContractFunctions";
 import { useWalletContext } from "./features/crypto-wallet/WalletConnect";
+import LoadingPopup from "./components/LoadingPopup";
 
 function App() {
   const [allTransactions, setAllTransactions] = useState<ethers.Event[]>([]);
   const [myTransactions, setMyTransactions] = useState<ethers.Event[]>([]);
-  const { accountAddress } = useWalletContext();
+  const { accountAddress, isWalletConnected, transferInProgress } = useWalletContext();
 
   useEffect(() => {
     fetchAllTransactions()
@@ -47,20 +48,23 @@ function App() {
   }
 
   return (
-    <div className="app text-white px-10 md:px-28">
-      <Header className="mb-16"></Header>
-      <div className="send-cryptos lg:flex">
-        <div className="lg:w-1/2 lg:mr-10">
-          <ConnectWallet />
+    <>
+      {transferInProgress && <LoadingPopup />}
+      <div className="text-white px-10 md:px-28">
+        <Header className="mb-16"></Header>
+        <div className="send-cryptos lg:flex">
+          <div className="lg:w-1/2 lg:mr-10">
+            <ConnectWallet />
+          </div>
+          <div className="md:mt-24 lg:mt-0 lg:pl-14 md:w-full lg:w-1/2">
+            <SendKryptCard />
+            <SendEtherForm />
+          </div>
         </div>
-        <div className="md:mt-24 lg:mt-0 lg:pl-14 md:w-full lg:w-1/2">
-          <SendKryptCard />
-          <SendEtherForm />
-        </div>
+        <TransactionGroup title={"Recent Transactions"} scrollType="horizontal" transactions={allTransactions} />
+        {isWalletConnected && <TransactionGroup title={"My Transactions"} scrollType="vertical" transactions={myTransactions} />}
       </div>
-      <TransactionGroup title={"Recent Transactions"} scrollType="horizontal" transactions={allTransactions} />
-      <TransactionGroup title={"My Transactions"} scrollType="vertical" transactions={myTransactions} />
-    </div>
+    </>
   );
 }
 

@@ -4,6 +4,8 @@ import { ethereum } from "../../utils/Constants";
 const initialWalletState: IWallet = {
     isWalletConnected: false,
     accountAddress: '',
+    transferInProgress: false,
+    setTransferInProgress: () => { },
     connectToWallet: async () => { },
 }
 
@@ -12,8 +14,9 @@ const WalletContext = createContext<IWallet>(initialWalletState);
 function WalletProvider({ children }: IProps) {
     const [isWalletConnected, setisWalletConnected] = useState(initialWalletState.isWalletConnected);
     const [accountAddress, setAccountAddress] = useState(initialWalletState.accountAddress);
+    const [transferInProgress, setTransferInProgress] = useState(initialWalletState.transferInProgress)
 
-    const isConnected = async() => {
+    const isConnected = async () => {
         if (!ethereum) return false;
         try {
             const accounts = await ethereum.request({ method: 'eth_accounts' });
@@ -43,11 +46,11 @@ function WalletProvider({ children }: IProps) {
 
     useEffect(() => {
         isConnected();
-    },[])
+    }, [])
 
 
     return (
-        <WalletContext.Provider value={{ isWalletConnected, accountAddress, connectToWallet } as IWallet} >
+        <WalletContext.Provider value={{ isWalletConnected, accountAddress, transferInProgress, setTransferInProgress, connectToWallet }} >
             {children}
         </WalletContext.Provider>
     )

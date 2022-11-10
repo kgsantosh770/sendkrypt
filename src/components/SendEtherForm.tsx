@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 import { sendEther } from "../features/ether-transfer-contract/ContractFunctions";
+import {useWalletContext} from "../features/crypto-wallet/WalletConnect";
 
 interface IFormData {
   receiver: string,
@@ -9,6 +10,8 @@ interface IFormData {
 }
 
 export default function SendEtherForm() {
+  const {setTransferInProgress} = useWalletContext();
+
   const initialFormData = {
     receiver: '',
     amount: '',
@@ -24,8 +27,10 @@ export default function SendEtherForm() {
     //form validation
     e.preventDefault();
     const amount = Number(formData.amount);
+    setTransferInProgress(true);
     sendEther(formData.receiver, amount, formData.keyword, formData.msg)
-      .then(() => setFormData(initialFormData));
+      .then(() => setFormData(initialFormData))
+      .then(()=> setTransferInProgress(false));
   }
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
