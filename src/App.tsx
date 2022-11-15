@@ -7,7 +7,7 @@ import SendKryptCard from "./components/SendKryptCard";
 import TransactionGroup from "./components/TransactionGroup";
 import { getAllTransactions } from "./features/ether-transfer-contract/ContractFunctions";
 import { useWalletContext } from "./features/crypto-wallet/WalletConnect";
-import LoadingPopup from "./components/LoadingPopup";
+import NotificationBar from "./components/NotificationBar";
 
 function App() {
   const [allTransactions, setAllTransactions] = useState<ethers.Event[]>([]);
@@ -22,12 +22,11 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log(allTransactions);
     const transactions = filterMyTransactions();
-    console.log(transactions);
     if (transactions.length > 0) {
       setMyTransactions(transactions);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allTransactions])
 
   async function fetchAllTransactions(): Promise<ethers.Event[]> {
@@ -43,13 +42,14 @@ function App() {
       if (transaction.args && transaction.args[0] && transaction.args[0].from.toLowerCase() === accountAddress) {
         return transaction;
       }
+      return null;
     });
     return transactions;
   }
 
   return (
     <>
-      {transferInProgress && <LoadingPopup />}
+      <NotificationBar message="Transfering ethers from your account to recievers account ..." showNotification={transferInProgress}/>
       <div className="text-white px-10 md:px-28">
         <Header className="mb-16"></Header>
         <div className="send-cryptos lg:flex">
@@ -61,8 +61,8 @@ function App() {
             <SendEtherForm />
           </div>
         </div>
-        <TransactionGroup title={"Recent Transactions"} scrollType="horizontal" transactions={allTransactions} />
-        {isWalletConnected && <TransactionGroup title={"My Transactions"} scrollType="vertical" transactions={myTransactions} />}
+        <TransactionGroup title={"Recent Transactions"} id="recentTransactions" scrollType="horizontal" transactions={allTransactions} />
+        {isWalletConnected && <TransactionGroup title={"My Transactions"} id="myTransactions" scrollType="vertical" transactions={myTransactions} />}
       </div>
     </>
   );
