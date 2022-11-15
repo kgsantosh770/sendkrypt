@@ -44,6 +44,7 @@ export default function TransactionCard(props: CardProps) {
         fetchImage(txn.keyword).then(
             (result) => setImage(result[0].urls.small)
         )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
