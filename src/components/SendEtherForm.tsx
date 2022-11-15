@@ -10,7 +10,7 @@ interface IFormData {
 }
 
 export default function SendEtherForm() {
-  const {isWalletConnected, setTransferInProgress} = useWalletContext();
+  const {isWalletConnected, transferInProgress, setTransferInProgress} = useWalletContext();
 
   const initialFormData = {
     receiver: '',
@@ -26,6 +26,7 @@ export default function SendEtherForm() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     //form validation
     e.preventDefault();
+    if(transferInProgress) return;
     const amount = Number(formData.amount);
     setTransferInProgress(true);
     sendEther(formData.receiver, amount, formData.keyword, formData.msg)
@@ -84,10 +85,10 @@ export default function SendEtherForm() {
       <hr className="bg-white mx-4 my-3" />
       {isWalletConnected ? <input
         type="submit"
-        value="Send"
-        onChange={handleInputChange}
+        value={transferInProgress ? "Sending" : "Send"}
+        disabled={transferInProgress ? true : false}
         className="bg-customblue-100 cursor-pointer mt-5 w-1/2 block mx-auto border-white border shadow-black shadow-md py-3 px-3 rounded-xl"
-      /> : 
+      /> :
       <div className="text-center">Please connect wallet to send ethers</div>}
     </form>
   )
