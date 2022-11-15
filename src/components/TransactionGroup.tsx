@@ -6,12 +6,14 @@ import { ethers } from "ethers";
 
 interface Props {
     title: string,
+    id?: string,
     scrollType: 'horizontal' | 'vertical',
     transactions: ethers.Event[],
 }
 
 TransactionGroup.defaultProps = {
     scrollType: 'vertical',
+    id: 'transactions',
 }
 
 export default function TransactionGroup(props: Props) {
@@ -47,7 +49,7 @@ export default function TransactionGroup(props: Props) {
     const verticalScroll = "grid grid-cols-3";
 
     return (
-        <div className="my-16 relative">
+        <div className="my-16 relative" id={props.id}>
             <h3 className="text-xl md:text-2xl lg:text-4xl italic mb-10">{props.title}</h3>
             {props.scrollType === 'horizontal' &&
                 <div className="absolute top-2 right-0">
