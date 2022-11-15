@@ -51,7 +51,7 @@ export default function TransactionCard(props: CardProps) {
             {
                 image &&
                 <div className="overflow-hidden">
-                    <img src={image} alt="card" className="hover:scale-110 w-full h-full max-h-[200px]" />
+                    <img src={image} alt="card" className="hover:scale-110 w-full h-[200px]" />
                 </div>
             }
             <div className="relative grow shrink basis-auto">

@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind utilities;
 
+html{
+    scroll-behavior: smooth;
+}
+
 body{
     margin: 0;
     background: linear-gradient(209deg, rgba(180,58,163,1) 0%, rgba(49,16,44,1) 26%, rgba(0,0,0,1) 100%) no-repeat;
