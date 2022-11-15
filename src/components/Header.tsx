@@ -1,10 +1,12 @@
 import Logo from '../assets/images/ether.png';
+import { useWalletContext } from '../features/crypto-wallet/WalletConnect';
 
 interface HeaderProps {
     className?: string,
 }
 
 export default function Header(props: HeaderProps) {
+    const {isWalletConnected} = useWalletContext();
     return (
         <header className={`py-8 flex justify-between font-semibold ${props.className}`}>
             <div className='flex items-center'>
@@ -16,8 +18,8 @@ export default function Header(props: HeaderProps) {
             <nav>
                 <ul className='flex items-center'>
                     <li className="px-5"><a href="#home">Home</a></li>
-                    <li className="px-5"><a href="#features">Features</a></li>
-                    <li className="px-5"><a href="#transactions">Transactions</a></li>
+                    <li className="px-5"><a href="#recentTransactions">Recent Transactions</a></li>
+                    {isWalletConnected && <li className="px-5"><a href="#myTransactions">My Transactions</a></li>}
                 </ul>
             </nav>
         </header>
