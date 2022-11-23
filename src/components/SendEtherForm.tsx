@@ -54,6 +54,7 @@ export default function SendEtherForm() {
         name="receiver"
         value={formData.receiver}
         onChange={handleInputChange}
+        disabled={transferInProgress}
         className="bg-customblue-100 mb-5 block w-full shadow-black shadow-sm rounded-lg min-h-max px-5 py-2.5"
         placeholder="Address to" />
       <input
@@ -61,6 +62,7 @@ export default function SendEtherForm() {
         name="amount"
         value={formData.amount}
         onChange={handleInputChange}
+        disabled={transferInProgress}
         max="10000"
         onKeyDown={blockInvalidChar}
         className="bg-[#252849] mb-5 block w-full shadow-black shadow-sm rounded-lg min-h-max px-5 py-2.5"
@@ -71,6 +73,7 @@ export default function SendEtherForm() {
         name="keyword"
         value={formData.keyword}
         onChange={handleInputChange}
+        disabled={transferInProgress}
         className="bg-customblue-100 mb-5 block w-full shadow-black shadow-sm rounded-lg min-h-max px-5 py-2.5"
         placeholder="Keyword"
       />
@@ -79,6 +82,7 @@ export default function SendEtherForm() {
         name="msg"
         value={formData.msg}
         onChange={handleInputChange}
+        disabled={transferInProgress}
         className="bg-customblue-100 mb-5 block w-full shadow-black shadow-sm rounded-lg min-h-max px-5 py-2.5"
         placeholder="Message"
       />
