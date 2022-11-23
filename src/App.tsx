@@ -49,8 +49,8 @@ function App() {
 
   return (
     <>
-      <NotificationBar message="Transfering ethers from your account to recievers account ..." showNotification={transferInProgress}/>
-      <div className="text-white px-10 md:px-28">
+      <NotificationBar message="Ether transfer in progress !" showNotification={transferInProgress}/>
+      <div className={`text-white px-10 md:px-28 ${transferInProgress ? 'pt-10' : ''}`}>
         <Header className="mb-16"></Header>
         <div className="send-cryptos lg:flex">
           <div className="lg:w-1/2 lg:mr-10">

@@ -10,7 +10,7 @@ export default function NotificationBar(props: NotificationBarProps) {
         <>
             {
                 props.showNotification &&
-                <div className="bg-white py-4 px-10 relative">
+                <div className="bg-white py-4 px-10 fixed w-full z-20 text-center">
                     {props.message}
                 </div>
             }
