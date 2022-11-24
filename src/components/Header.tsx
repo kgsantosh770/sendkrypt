@@ -17,7 +17,6 @@ export default function Header(props: HeaderProps) {
             </div>
             <nav>
                 <ul className='flex items-center'>
-                    <li className="px-5"><a href="#home">Home</a></li>
                     <li className="px-5"><a href="#recentTransactions">Recent Transactions</a></li>
                     {isWalletConnected && <li className="px-5"><a href="#myTransactions">My Transactions</a></li>}
                 </ul>

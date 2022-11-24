@@ -1,19 +1,22 @@
 import { useRef, useState } from "react"
+import { ethers } from "ethers";
 
 import TransactionCard from "./TransactionCard"
 import ForwardArrowIcon from "../assets/images/forward.png";
-import { ethers } from "ethers";
+import LoadingIcon from "../assets/images/loading.gif";
 
 interface Props {
     title: string,
     id?: string,
     scrollType: 'horizontal' | 'vertical',
     transactions: ethers.Event[],
+    loading?: boolean;
 }
 
 TransactionGroup.defaultProps = {
     scrollType: 'vertical',
     id: 'transactions',
+    loading: false,
 }
 
 export default function TransactionGroup(props: Props) {
@@ -50,7 +53,8 @@ export default function TransactionGroup(props: Props) {
 
     return (
         <div className="my-16 relative scroll-mt-10" id={props.id}>
-            <h3 className="text-xl md:text-2xl lg:text-4xl italic mb-10">{props.title}</h3>
+            <h3 className="text-xl md:text-2xl lg:text-4xl italic mb-10 inline-block">{props.title}</h3>
+            {props.loading && <img src={LoadingIcon} alt="loading" className="inline w-14 aspect-square mb-3 ml-3" />}
             {props.scrollType === 'horizontal' &&
                 <div className="absolute top-2 right-0">
                     <button

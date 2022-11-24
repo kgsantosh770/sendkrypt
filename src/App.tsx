@@ -12,20 +12,26 @@ import NotificationBar from "./components/NotificationBar";
 function App() {
   const [allTransactions, setAllTransactions] = useState<ethers.Event[]>([]);
   const [myTransactions, setMyTransactions] = useState<ethers.Event[]>([]);
+  const [transactionsLoading, setTransactionsLoading] = useState(false);
+  const [myTransactionsLoading, setMyTransactionsLoading] = useState(false);
   const { accountAddress, isWalletConnected, transferInProgress } = useWalletContext();
 
   useEffect(() => {
+    setTransactionsLoading(true);
     fetchAllTransactions()
       .then((events) => {
         if (events.length > 0) setAllTransactions(events);
       })
+      .then(() => setTransactionsLoading(false));
   }, [])
 
   useEffect(() => {
+    setMyTransactionsLoading(true);
     const transactions = filterMyTransactions();
     if (transactions.length > 0) {
       setMyTransactions(transactions);
     }
+    setMyTransactionsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allTransactions])
 
@@ -61,8 +67,8 @@ function App() {
             <SendEtherForm />
           </div>
         </div>
-        <TransactionGroup title={"Recent Transactions"} id="recentTransactions" scrollType="horizontal" transactions={allTransactions} />
-        {isWalletConnected && <TransactionGroup title={"My Transactions"} id="myTransactions" scrollType="vertical" transactions={myTransactions} />}
+        <TransactionGroup title={"Recent Transactions"} id="recentTransactions" scrollType="horizontal" transactions={allTransactions} loading={transactionsLoading}/>
+        {isWalletConnected && <TransactionGroup title={"My Transactions"} id="myTransactions" scrollType="vertical" transactions={myTransactions} loading={myTransactionsLoading}/>}
       </div>
     </>
   );
