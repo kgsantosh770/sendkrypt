@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 import { sendEther } from "../features/ether-transfer-contract/ContractFunctions";
-import {useWalletContext} from "../features/crypto-wallet/WalletConnect";
+import { useWalletContext } from "../features/crypto-wallet/WalletConnect";
+import {ethers} from "ethers"
 
 interface IFormData {
   receiver: string,
@@ -10,7 +11,9 @@ interface IFormData {
 }
 
 export default function SendEtherForm() {
-  const {isWalletConnected, transferInProgress, setTransferInProgress} = useWalletContext();
+  const { isWalletConnected, transferInProgress, setTransferInProgress } = useWalletContext();
+  const [formError, setFormError] = useState('');
+  console.log(formError);
 
   const initialFormData = {
     receiver: '',
@@ -24,24 +27,88 @@ export default function SendEtherForm() {
     ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    //form validation
     e.preventDefault();
-    if(transferInProgress) return;
+    if(!isFormValid())
+      return;
+    if (transferInProgress) return;
     const amount = Number(formData.amount);
     setTransferInProgress(true);
     sendEther(formData.receiver, amount, formData.keyword, formData.msg)
-      .then(() => setFormData(initialFormData))
-      .then(()=> setTransferInProgress(false));
+    .then((result: any) => {
+      if(result !== true){
+        const msg = result.message as string;
+        let index = msg.indexOf("[");
+        if(index === -1)
+          index = msg.indexOf('(');
+        var errorMessage = msg.toUpperCase().charAt(0) + msg.substring(1, index-1) + '.';
+        console.log(msg.substring(1, msg.indexOf("[" || "(")));
+        setFormError(errorMessage);
+      }
+      else
+        setFormError('');
+    })
+    .then(() => setFormData(initialFormData))
+    .then(() => setTransferInProgress(false))
   }
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    if (name === "keyword" && !isKeywordValid()) {
+      return;
+    }
+    if(name === "message" && !isMessageValid()){
+      return;
+    }
     setFormData((prevData) => {
       return {
         ...prevData,
         [name]: value,
       }
     })
+  }
+
+  const isFormValid = () => {
+    console.log("checking form inputs...");
+    if (isRecieverAddressValid() && isEthAmountValid() && isKeywordValid() && isMessageValid())
+      return true;
+    return false;
+  }
+
+  const isRecieverAddressValid = () => {
+    console.log("checking address");
+    console.log(ethers.utils.isAddress(formData.receiver));
+    if(ethers.utils.isAddress(formData.receiver)){
+      return true;
+    }
+    setFormError("Wallet address invalid.");
+    return false;
+  }
+
+  const isEthAmountValid = () => {
+    try {
+      const ethAmount = Number.parseFloat(formData.amount);
+      if(ethAmount <= 10000 && ethAmount > 0)
+        return true;
+      else{
+        setFormError("Eth amount should be between 1 and 10000.");
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  const isKeywordValid = () => {
+    if (formData.keyword.length <= 20)
+      return true;
+    return false;
+  }
+
+  const isMessageValid = () => {
+    if (formData.msg.length <= 100)
+      return true;
+    return false;
   }
 
   return (
@@ -71,6 +138,7 @@ export default function SendEtherForm() {
       <input
         type="text"
         name="keyword"
+        maxLength={20}
         value={formData.keyword}
         onChange={handleInputChange}
         disabled={transferInProgress}
@@ -80,6 +148,7 @@ export default function SendEtherForm() {
       <input
         type="text"
         name="msg"
+        maxLength={100}
         value={formData.msg}
         onChange={handleInputChange}
         disabled={transferInProgress}
@@ -93,7 +162,11 @@ export default function SendEtherForm() {
         disabled={transferInProgress ? true : false}
         className="bg-customblue-100 cursor-pointer mt-5 w-1/2 block mx-auto border-white border shadow-black shadow-md py-3 px-3 rounded-xl"
       /> :
-      <div className="text-center">Please connect wallet to send ethers</div>}
+        <div className="text-center">Please connect wallet to send ethers</div>}
+      {
+        formError !== '' && 
+        <div className="text-center text-red-600 font-bold mt-4">{formError}</div>
+      }
     </form>
   )
 }

@@ -39,8 +39,9 @@ const sendEther = async (to: string, amount: number, keyword: string, msg: strin
         await txn.wait();
         return true;
     } catch (error) {
+        console.log("this is error");
         console.log(error);
-        return false;
+        return error;
     }
 }
 
