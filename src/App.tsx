@@ -33,7 +33,7 @@ function App() {
     }
     setMyTransactionsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allTransactions])
+  }, [allTransactions, isWalletConnected])
 
   async function fetchAllTransactions(): Promise<ethers.Event[]> {
     let transactions: ethers.Event[] | boolean = await getAllTransactions();
