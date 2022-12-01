@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import SendEtherForm from "./components/SendEtherForm";
 import SendKryptCard from "./components/SendKryptCard";
 import TransactionGroup from "./components/TransactionGroup";
-import { getAllTransactions } from "./features/ether-transfer-contract/ContractFunctions";
+import { getAllTransactions, getContract } from "./features/ether-transfer-contract/ContractFunctions";
 import { useWalletContext } from "./features/crypto-wallet/WalletConnect";
 import NotificationBar from "./components/NotificationBar";
 
@@ -17,14 +17,13 @@ function App() {
   const { accountAddress, isWalletConnected, transferInProgress } = useWalletContext();
 
   useEffect(() => {
-    setTransactionsLoading(true);
-    fetchAllTransactions()
-      .then((events) => {
-        if (events.length > 0) setAllTransactions(events);
-      })
-      .then(() => setTransactionsLoading(false));
+    loadAllTransactions();
+    const contract = getContract();
+    if(contract !== false){
+      contract.on('EthTransfer', loadAllTransactions);
+    }
   }, [])
-
+  
   useEffect(() => {
     setMyTransactionsLoading(true);
     const transactions = filterMyTransactions();
@@ -34,6 +33,15 @@ function App() {
     setMyTransactionsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allTransactions, isWalletConnected])
+
+  const loadAllTransactions = () => {
+    setTransactionsLoading(true);
+    fetchAllTransactions()
+      .then((events) => {
+        if (events.length > 0) setAllTransactions(events);
+      })
+      .then(() => setTransactionsLoading(false));
+  }
 
   async function fetchAllTransactions(): Promise<ethers.Event[]> {
     let transactions: ethers.Event[] | boolean = await getAllTransactions();

@@ -46,4 +46,4 @@ const sendEther = async (to: string, amount: number, keyword: string, msg: strin
 }
 
 
-export { sendEther, getAllTransactions };
+export { sendEther, getAllTransactions, getContract };
