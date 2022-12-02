@@ -19,11 +19,11 @@ function App() {
   useEffect(() => {
     loadAllTransactions();
     const contract = getContract();
-    if(contract !== false){
+    if (contract !== false) {
       contract.on('EthTransfer', loadAllTransactions);
     }
   }, [])
-  
+
   useEffect(() => {
     setMyTransactionsLoading(true);
     const transactions = filterMyTransactions();
@@ -63,9 +63,9 @@ function App() {
 
   return (
     <>
-      <NotificationBar message="Ether transfer in progress !" showNotification={transferInProgress}/>
+      <NotificationBar message="Ether transfer in progress !" showNotification={transferInProgress} />
       <div className={`text-white px-10 md:px-28 ${transferInProgress ? 'pt-10' : ''}`}>
-        <Header className="mb-16"></Header>
+        <Header className="mb-16" transactionsLength={allTransactions.length}></Header>
         <div className="send-cryptos lg:flex">
           <div className="lg:w-1/2 lg:mr-10">
             <ConnectWallet />
@@ -75,8 +75,10 @@ function App() {
             <SendEtherForm />
           </div>
         </div>
-        <TransactionGroup title={"Recent Transactions"} id="recentTransactions" scrollType="horizontal" transactions={allTransactions} loading={transactionsLoading}/>
-        {isWalletConnected && <TransactionGroup title={"My Transactions"} id="myTransactions" scrollType="vertical" transactions={myTransactions} loading={myTransactionsLoading}/>}
+        {allTransactions.length > 0 &&
+          <TransactionGroup title={"Recent Transactions"} id="recentTransactions" scrollType="horizontal" transactions={allTransactions} loading={transactionsLoading} />
+        }
+        {isWalletConnected && allTransactions.length > 0 && <TransactionGroup title={"My Transactions"} id="myTransactions" scrollType="vertical" transactions={myTransactions} loading={myTransactionsLoading} />}
       </div>
     </>
   );

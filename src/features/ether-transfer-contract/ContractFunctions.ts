@@ -2,7 +2,7 @@ import { SEND_ETHER_CONTRACT_ABI } from '../../utils/Constants';
 import { ethereum } from '../../utils/Constants';
 import { ethers } from "ethers";
 
-const CONTRACT_ADDRESS = '0x5CB150e65a803948b297C536c2f1eF229432738f';
+const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS;
 const CONTRACT_ABI = SEND_ETHER_CONTRACT_ABI;
 
 const getContract = () => {
@@ -10,6 +10,7 @@ const getContract = () => {
     try {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
+        if(CONTRACT_ADDRESS === undefined) return false;
         return new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
     } catch (error) {
         console.log(error);

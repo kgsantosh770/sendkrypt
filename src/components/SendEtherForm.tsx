@@ -13,7 +13,6 @@ interface IFormData {
 export default function SendEtherForm() {
   const { isWalletConnected, transferInProgress, setTransferInProgress } = useWalletContext();
   const [formError, setFormError] = useState('');
-  console.log(formError);
 
   const initialFormData = {
     receiver: '',
@@ -41,7 +40,6 @@ export default function SendEtherForm() {
         if(index === -1)
           index = msg.indexOf('(');
         var errorMessage = msg.toUpperCase().charAt(0) + msg.substring(1, index-1) + '.';
-        console.log(msg.substring(1, msg.indexOf("[" || "(")));
         setFormError(errorMessage);
       }
       else
@@ -68,15 +66,12 @@ export default function SendEtherForm() {
   }
 
   const isFormValid = () => {
-    console.log("checking form inputs...");
     if (isRecieverAddressValid() && isEthAmountValid() && isKeywordValid() && isMessageValid())
       return true;
     return false;
   }
 
   const isRecieverAddressValid = () => {
-    console.log("checking address");
-    console.log(ethers.utils.isAddress(formData.receiver));
     if(ethers.utils.isAddress(formData.receiver)){
       return true;
     }

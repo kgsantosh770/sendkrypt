@@ -3,6 +3,7 @@ import { useWalletContext } from '../features/crypto-wallet/WalletConnect';
 
 interface HeaderProps {
     className?: string,
+    transactionsLength: number;
 }
 
 export default function Header(props: HeaderProps) {
@@ -17,8 +18,8 @@ export default function Header(props: HeaderProps) {
             </div>
             <nav>
                 <ul className='flex items-center'>
-                    <li className="px-5"><a href="#recentTransactions">Recent Transactions</a></li>
-                    {isWalletConnected && <li className="px-5"><a href="#myTransactions">My Transactions</a></li>}
+                    {props.transactionsLength > 0 && <li className="px-5"><a href="#recentTransactions">Recent Transactions</a></li>}
+                    {isWalletConnected && props.transactionsLength > 0 && <li className="px-5"><a href="#myTransactions">My Transactions</a></li>}
                 </ul>
             </nav>
         </header>

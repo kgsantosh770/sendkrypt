@@ -14,12 +14,13 @@ TransactionCard.defaultProps = {
 }
 
 export default function TransactionCard(props: CardProps) {
+    // console.log(props.transaction.args && new Date(props.transaction.args[0].timestamp * 1000));
     const [image, setImage] = useState(null)
     const txn = {
         fromAddress: props.transaction.args ? addressShortener(props.transaction.args[0].from) : 'Anonymous',
         toAddress: props.transaction.args ? addressShortener(props.transaction.args[0].to) : 'Anonymous',
         message: props.transaction.args ? props.transaction.args[0].message : 'Unknown message',
-        timeStamp: new Date(),
+        timeStamp: props.transaction.args ? new Date(props.transaction.args[0].timestamp * 1000) : new Date(),
         amount: props.transaction.args ? ethers.utils.formatEther(props.transaction.args[0].amount) : 'Unknown amount',
         currency: "eth",
         keyword: props.transaction.args ? props.transaction.args[0].keywork : null,

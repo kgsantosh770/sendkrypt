@@ -10,6 +10,7 @@ contract EtherTransfer {
         uint256 amount;
         string keyword;
         string message;
+        uint256 timestamp;
     }
 
     event EthTransfer(Transaction);
@@ -17,7 +18,7 @@ contract EtherTransfer {
     function sendEther(address payable reciever, string memory keyword, string memory message) public payable{
         require(msg.sender.balance > 0 wei, "Insufficient Balance");
         transfer(reciever);
-        Transaction memory currentTransaction = Transaction(msg.sender, reciever, msg.value, keyword, message);
+        Transaction memory currentTransaction = Transaction(msg.sender, reciever, msg.value, keyword, message, block.timestamp);
         emit EthTransfer(currentTransaction);
     }
 
