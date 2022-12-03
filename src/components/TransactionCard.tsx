@@ -23,7 +23,7 @@ export default function TransactionCard(props: CardProps) {
         timeStamp: props.transaction.args ? new Date(props.transaction.args[0].timestamp * 1000) : new Date(),
         amount: props.transaction.args ? ethers.utils.formatEther(props.transaction.args[0].amount) : 'Unknown amount',
         currency: "eth",
-        keyword: props.transaction.args ? props.transaction.args[0].keywork : null,
+        keyword: props.transaction.args ? props.transaction.args[0].keyword : null,
     }
 
     const getDateFromTimestamp = (timestamp: Date) => {
