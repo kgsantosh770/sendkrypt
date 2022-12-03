@@ -155,7 +155,7 @@ export default function SendEtherForm() {
         type="submit"
         value={transferInProgress ? "Sending" : "Send"}
         disabled={transferInProgress ? true : false}
-        className="bg-customblue-100 cursor-pointer mt-5 w-1/2 block mx-auto border-white border shadow-black shadow-md py-3 px-3 rounded-xl"
+        className={`${transferInProgress ? 'cursor-auto' : 'cursor-pointer'} bg-customblue-100 mt-5 w-1/2 block mx-auto border-white border shadow-black shadow-md py-3 px-3 rounded-xl`}
       /> :
         <div className="text-center">Please connect wallet to send ethers</div>}
       {
