@@ -33,6 +33,7 @@ contract EtherTransfer {
 
     function sendEther(address payable reciever, string memory keyword, string memory message) public payable{
         require(msg.sender.balance > 0 wei, "Insufficient Balance");
+        require(msg.value >= 0.0002 ether, "Very low ether transfer");
         transferEth(reciever);
         totalTransactions = totalTransactions + 1;
         Transaction memory currentTransaction = Transaction(msg.sender, reciever, msg.value, keyword, message, block.timestamp);
@@ -55,5 +56,12 @@ contract EtherTransfer {
             address payable prizeReciever = payable(msg.sender);
             prizeReciever.transfer(0.01 ether);
         }
+    }
+
+    function retrieveFee() payable public {
+        uint256 contractBalance = address(this).balance - 0.0001 ether;
+        require(contractBalance > 0 ether, "Low contract balance.");
+        (bool sent, ) = owner.call{value: contractBalance}("");
+        require(sent, "Failed to retrieve fee from contract.");
     }
 }

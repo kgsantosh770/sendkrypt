@@ -12,14 +12,21 @@ const main = async () => {
 
     console.log('contract deployed at: ',(await contract).address);
     console.log('contract owner: ', owner.address);
+    console.log("Owner balance: " + await owner.getBalance());
 
     const amount: BigNumber = hre.ethers.utils.parseEther("2");
+
+    //Send money from account 1 to account 2
     await sendEth(contract, accounts[1], accounts[2], amount);
-
+    //Send money from account 2 to account 3
     await sendEth(contract, accounts[2], accounts[3], amount);
-
+    //Send money from account 4 to account 5
     await sendEth(contract, accounts[4], accounts[5], amount);
 
+    //Transfer fee to owner
+    let txn = await contract.retrieveFee();
+    await txn.wait();
+    console.log("\nOwner balance = ", await owner.getBalance());
 }
 
 const sendEth =  async(contract: EtherTransfer, sender: SignerWithAddress, receiver: SignerWithAddress, amount: BigNumber) => {
