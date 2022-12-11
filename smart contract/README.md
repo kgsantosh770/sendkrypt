@@ -10,6 +10,6 @@ Ethereum smart contract having the basic use case of transfering eth from one cr
 
 ## Hardhat commands
 1. To test the smart contract run the file `run.ts` using the following command.
-- npx hardhat run scripts/run.ts
+> npx hardhat run scripts/run.ts
 2. To deploy smart contract to goerli test network.
-- npx hardhat run scripts/deploy.ts --network goerli
+> npx hardhat run scripts/deploy.ts --network goerli
