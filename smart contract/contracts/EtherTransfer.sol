@@ -12,18 +12,48 @@ contract EtherTransfer {
         string message;
         uint256 timestamp;
     }
-
+    uint256 totalTransactions = 0;
     event EthTransfer(Transaction);
+    address owner;
+    uint256 transactionFee = 0.0001 ether;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function deposit() payable public{}
+
+    function getBalance() public view returns (uint) {
+        return address(this).balance;
+    }
+
+    function getTotalTransactions() public view returns (uint){
+        return totalTransactions;
+    }
 
     function sendEther(address payable reciever, string memory keyword, string memory message) public payable{
         require(msg.sender.balance > 0 wei, "Insufficient Balance");
-        transfer(reciever);
+        transferEth(reciever);
+        totalTransactions = totalTransactions + 1;
         Transaction memory currentTransaction = Transaction(msg.sender, reciever, msg.value, keyword, message, block.timestamp);
         emit EthTransfer(currentTransaction);
+        sendPrizeAmount();
     }
 
-    function transfer(address payable reciever) internal {
-        (bool sent, ) = reciever.call{value: msg.value}("");
+    function transferEth(address payable reciever) internal {
+        uint256 amountMinusFee = deductTransactionFee(msg.value);
+        (bool sent, ) = reciever.call{value: amountMinusFee}("");
         require(sent, "Failed to send Ether");
+    }
+
+    function deductTransactionFee(uint256 amount) public view returns (uint256) {
+        return amount - transactionFee;
+    }
+
+    function sendPrizeAmount() payable public{
+        if(totalTransactions % 20 == 0){
+            address payable prizeReciever = payable(msg.sender);
+            prizeReciever.transfer(0.01 ether);
+        }
     }
 }

@@ -1,26 +1,46 @@
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { BigNumber } from "ethers";
 import hre from "hardhat";
+import { EtherTransfer, EtherTransfer__factory } from "../typechain-types";
 
 const main = async () => {
-    const [owner, friend] = await hre.ethers.getSigners(); 
-    const contractFactory = await hre.ethers.getContractFactory("EtherTransfer");
-    const contract = await contractFactory.deploy();
+    const accounts = await hre.ethers.getSigners(); 
+    const owner = accounts[0];
+    const contractFactory: EtherTransfer__factory = await hre.ethers.getContractFactory("EtherTransfer");
+    const contract: EtherTransfer = await contractFactory.deploy();
     await contract.deployed();
 
     console.log('contract deployed at: ',(await contract).address);
     console.log('contract owner: ', owner.address);
 
+    const amount: BigNumber = hre.ethers.utils.parseEther("2");
+    await sendEth(contract, accounts[1], accounts[2], amount);
+
+    await sendEth(contract, accounts[2], accounts[3], amount);
+
+    await sendEth(contract, accounts[4], accounts[5], amount);
+
+}
+
+const sendEth =  async(contract: EtherTransfer, sender: SignerWithAddress, receiver: SignerWithAddress, amount: BigNumber) => {
     console.log("Befor transfer:");
-    console.log('My balance: ',await owner.getBalance());
-    console.log("Friend balance: ",await friend.getBalance());
-    
-    console.log("Sending 1 ether to friend");
-    const amount = hre.ethers.utils.parseEther("1");
-    let txn = await contract.sendEther(friend.address, "Thor", "Simple transfer to a friend.", {value: amount});
-    await txn.wait();   
-    
+    await printBalances(contract, sender, receiver);
+
+    console.log("Sending ether from " + sender.address + "to " + receiver.address);
+    let txn = await contract.connect(sender).sendEther(receiver.address, "Thor", "Simple transfer to a friend.", {value: amount});
+    await txn.wait();
+
     console.log("After transfer:");
-    console.log('My balance: ',await owner.getBalance());
-    console.log("Friend balance: ",await friend.getBalance());
+    await printBalances(contract, sender, receiver);
+
+    console.log(await contract.getTotalTransactions());
+    console.log("===========================================================================");
+}
+
+const printBalances = async(contract: EtherTransfer, sender: SignerWithAddress, receiver: SignerWithAddress) => {
+    console.log(sender.address + ' balance: ',await sender.getBalance());
+    console.log(receiver.address + " balance: ",await receiver.getBalance());
+    console.log("Contract Balance: ",await contract.getBalance());
 }
 
 const runMain = async() => {
