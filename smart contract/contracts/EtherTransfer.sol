@@ -16,6 +16,7 @@ contract EtherTransfer {
     event EthTransfer(Transaction);
     address owner;
     uint256 transactionFee = 0.0001 ether;
+    uint256 prizeAmount = 0.004 ether;
 
     constructor() {
         owner = msg.sender;
@@ -39,6 +40,9 @@ contract EtherTransfer {
         Transaction memory currentTransaction = Transaction(msg.sender, reciever, msg.value, keyword, message, block.timestamp);
         emit EthTransfer(currentTransaction);
         sendPrizeAmount();
+        if(address(this).balance >= 5 ether){
+            retrieveFee();
+        }
     }
 
     function transferEth(address payable reciever) internal {
@@ -54,12 +58,12 @@ contract EtherTransfer {
     function sendPrizeAmount() payable public{
         if(totalTransactions % 20 == 0){
             address payable prizeReciever = payable(msg.sender);
-            prizeReciever.transfer(0.01 ether);
+            prizeReciever.transfer(prizeAmount);
         }
     }
 
     function retrieveFee() payable public {
-        uint256 contractBalance = address(this).balance - 0.0001 ether;
+        uint256 contractBalance = address(this).balance - prizeAmount;
         require(contractBalance > 0 ether, "Low contract balance.");
         (bool sent, ) = owner.call{value: contractBalance}("");
         require(sent, "Failed to retrieve fee from contract.");
