@@ -7,7 +7,7 @@ Ethereum smart contract having the basic use case of transfering eth from one cr
 3. Give a prize amount to every 20th transaction.
 4. Retrieve the amount stored in smart contract.
 5. Calculate total number of transactions.
-s
+
 ## Hardhat commands
 1. To test the smart contract run the file `run.ts` using the following command.
 - npx hardhat run scripts/run.ts
