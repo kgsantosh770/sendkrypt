@@ -79,7 +79,7 @@ function App() {
           <TransactionGroup title={"Recent Transactions"} id="recentTransactions" scrollType="horizontal" transactions={allTransactions.slice(0,15)} loading={transactionsLoading} />
         }
         {isWalletConnected && allTransactions.length > 0 && <TransactionGroup title={"My Transactions"} id="myTransactions" scrollType="vertical" transactions={myTransactions} loading={myTransactionsLoading} />}
-        {myTransactions.length === 0 && <p className="text-white -mt-20 mb-20 text-lg">You have 0 transactions. Start sending ETH now !</p>}
+        {isWalletConnected && allTransactions.length > 0 && myTransactions.length === 0 && <p className="text-white -mt-20 mb-20 text-lg">You have 0 transactions. Start sending ETH now !</p>}
       </div>
     </>
   );
