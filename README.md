@@ -4,11 +4,11 @@ SendKrypt is a web3 application for sending ethers across crypto accounts. This 
 
 ## Exclusive feature
 
-Every 20th person has a chance to win 0.004 ether, which is approximately ₹400 as of `12th December 2022`.
+Every 25th person has a chance to win 0.003 ether, which is approximately ₹330 as of `13th December 2022`.
 
 ## Transaction Fee
 
-0.0001 ether is set as transaction fee for every transaction. The ethers gets stored in contract and once it exceeds 5 ether the amount is automatically transfered to the owner of the contract.
+0.0006 ether is set as transaction fee for every transaction. The fee gets stored in contract and once it exceeds 5 ether the amount is automatically transfered to the owner of the contract.
 
 ## Pre-requisites of the project
 - node

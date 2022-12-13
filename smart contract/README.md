@@ -4,7 +4,7 @@ Ethereum smart contract having the basic use case of transfering eth from one cr
 ## Features
 1. Transfer eth.
 2. Acquire transaction fee.
-3. Give a prize amount to every 20th transaction.
+3. Give a prize amount to every 25th transaction.
 4. Retrieve the amount stored in smart contract.
 5. Calculate total number of transactions.
 

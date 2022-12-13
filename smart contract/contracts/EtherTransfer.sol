@@ -15,8 +15,9 @@ contract EtherTransfer {
     uint256 totalTransactions = 0;
     event EthTransfer(Transaction);
     address owner;
-    uint256 transactionFee = 0.0001 ether;
-    uint256 prizeAmount = 0.004 ether;
+    uint256 transactionFee = 0.0006 ether;
+    uint256 prizeAmount = 0.003 ether;
+    uint rewardedTransaction = 25;
 
     constructor() {
         owner = msg.sender;
@@ -56,7 +57,7 @@ contract EtherTransfer {
     }
 
     function sendPrizeAmount() payable public{
-        if(totalTransactions % 20 == 0){
+        if(totalTransactions % rewardedTransaction == 0){
             address payable prizeReciever = payable(msg.sender);
             prizeReciever.transfer(prizeAmount);
         }
