@@ -5,9 +5,8 @@ export default function ConnectWallet() {
 
     return (
         <div>
-            <p className="text-5xl italic mb-10 leading-tight">SendKrypt <br />across the world</p>
-            <div className="w-full lg:w-2/3">Secure crypto currency transaction service. You can check your transactions anytime, anywhere. Fee as low as 0.0001 ether.</div>
-            <div className="w-full text-lg font-bold mt-3">Every 20th transaction gets 0.004 ether (~ ₹400)</div>
+            <p className="text-5xl italic mb-4 leading-tight">SendKrypt <br />across the world</p>
+            <div className="w-full text-lg mt-3">🏆 Every 20<sup>th</sup> transaction can win 0.004 ether (~ ₹400)</div>
             <table className="mt-8 w-full border-separate">
                 <tbody>
                     <tr className="text-center">
