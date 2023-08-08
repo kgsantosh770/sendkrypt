@@ -8,13 +8,15 @@ import TransactionGroup from "./components/TransactionGroup";
 import { getAllTransactions, getContract } from "./features/ether-transfer-contract/ContractFunctions";
 import { useWalletContext } from "./features/crypto-wallet/WalletConnect";
 import NotificationBar from "./components/NotificationBar";
+import { useNotificationContext } from "./features/notification/NotificationContext";
 
 function App() {
   const [allTransactions, setAllTransactions] = useState<ethers.Event[]>([]);
   const [myTransactions, setMyTransactions] = useState<ethers.Event[]>([]);
   const [transactionsLoading, setTransactionsLoading] = useState(false);
   const [myTransactionsLoading, setMyTransactionsLoading] = useState(false);
-  const { accountAddress, isWalletConnected, transferInProgress } = useWalletContext();
+  const { accountAddress, isWalletConnected } = useWalletContext();
+  const notification = useNotificationContext();
 
   useEffect(() => {
     loadAllTransactions();
@@ -63,9 +65,9 @@ function App() {
 
   return (
     <>
-      <NotificationBar message="Ether transfer in progress !" showNotification={transferInProgress} />
-      <div className={`text-white px-10 md:px-28 ${transferInProgress ? 'pt-10' : ''}`}>
-        <Header className="mb-16" transactionsLength={allTransactions.length}></Header>
+      <NotificationBar />
+      <div className={`text-white px-10 md:px-28 ${notification.enabled ? 'pt-10' : ''}`}>
+        <Header className="mb-10" transactionsLength={allTransactions.length}></Header>
         <div className="send-cryptos lg:flex">
           <div className="lg:w-1/2 lg:mr-10">
             <ConnectWallet />
@@ -76,7 +78,7 @@ function App() {
           </div>
         </div>
         {allTransactions.length > 0 &&
-          <TransactionGroup title={"Recent Transactions"} id="recentTransactions" scrollType="horizontal" transactions={allTransactions.slice(0,15)} loading={transactionsLoading} />
+          <TransactionGroup title={"Recent Transactions"} id="recentTransactions" scrollType="horizontal" transactions={allTransactions.slice(0, 15)} loading={transactionsLoading} />
         }
         {isWalletConnected && allTransactions.length > 0 && <TransactionGroup title={"My Transactions"} id="myTransactions" scrollType="vertical" transactions={myTransactions} loading={myTransactionsLoading} />}
         {isWalletConnected && allTransactions.length > 0 && myTransactions.length === 0 && <p className="text-white -mt-20 mb-20 text-lg">You have 0 transactions. Start sending ETH now !</p>}

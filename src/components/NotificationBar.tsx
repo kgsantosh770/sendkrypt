@@ -1,17 +1,21 @@
-import { useState } from "react"
+import { useNotificationContext } from "../features/notification/NotificationContext"
+import CloseIcon from "../assets/images/close.png"
 
-interface NotificationBarProps {
-    message: string,
-    showNotification: boolean,
-}
+export default function NotificationBar() {
+    const notificaton = useNotificationContext();
 
-export default function NotificationBar(props: NotificationBarProps) {
     return (
         <>
             {
-                props.showNotification &&
+                notificaton.enabled &&
                 <div className="bg-white py-4 px-10 fixed w-full z-20 text-center">
-                    {props.message}
+                    {notificaton.message}
+                    <button
+                        className="absolute right-6 top-1/4 w-7 p-1 border-2"
+                        onClick={notificaton.hideNotification}
+                    >
+                        <img src={CloseIcon} alt="close" />
+                    </button>
                 </div>
             }
         </>
