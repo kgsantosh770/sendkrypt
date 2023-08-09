@@ -41,7 +41,7 @@ contract EtherTransfer {
         Transaction memory currentTransaction = Transaction(msg.sender, reciever, msg.value, keyword, message, block.timestamp);
         emit EthTransfer(currentTransaction);
         sendPrizeAmount();
-        if(address(this).balance >= 5 ether){
+        if(address(this).balance > prizeAmount){
             retrieveFee();
         }
     }
@@ -64,8 +64,8 @@ contract EtherTransfer {
     }
 
     function retrieveFee() payable public {
+        require(address(this).balance > prizeAmount, "Low contract balance.");
         uint256 contractBalance = address(this).balance - prizeAmount;
-        require(contractBalance > 0 ether, "Low contract balance.");
         (bool sent, ) = owner.call{value: contractBalance}("");
         require(sent, "Failed to retrieve fee from contract.");
     }
