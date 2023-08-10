@@ -21,7 +21,7 @@ function WalletProvider({ children }: IProps) {
     const isConnected = async () => {
         if (!ethereum) {
             showNotification(ethereumNotFound);
-            return;
+            return false;
         }
         try {
             const accounts = await ethereum.request({ method: 'eth_accounts' });
@@ -54,7 +54,7 @@ function WalletProvider({ children }: IProps) {
 
     useEffect(() => {
         isConnected();
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     return (

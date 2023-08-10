@@ -45,9 +45,8 @@ export default function TransactionCard(props: CardProps) {
         fetchImage(txn.keyword).then(
             (result) => setImage(result[0].urls.small)
         )
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
+    }, [txn.keyword])
+    
     return (
         <div className={`flex flex-col bg-customblue-100 relative ${props.cardType === 'vertical' ? 'mx-auto' : 'mr-14'} my-0 lg:mb-10 lg:mt-5 w-[290px] rounded-lg shadow-lg shadow-gray-800 overflow-hidden`}>
             {
