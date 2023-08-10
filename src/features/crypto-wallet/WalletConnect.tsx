@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { ethereum } from "../../utils/Constants";
+import { ethereum, ethereumNotFound } from "../../utils/Constants";
+import { useNotificationContext } from "../notification/NotificationContext";
 
 const initialWalletState: IWallet = {
     isWalletConnected: false,
@@ -15,9 +16,13 @@ function WalletProvider({ children }: IProps) {
     const [isWalletConnected, setisWalletConnected] = useState(initialWalletState.isWalletConnected);
     const [accountAddress, setAccountAddress] = useState(initialWalletState.accountAddress);
     const [transferInProgress, setTransferInProgress] = useState(initialWalletState.transferInProgress)
+    const { showNotification } = useNotificationContext();
 
     const isConnected = async () => {
-        if (!ethereum) return false;
+        if (!ethereum) {
+            showNotification(ethereumNotFound);
+            return;
+        }
         try {
             const accounts = await ethereum.request({ method: 'eth_accounts' });
             if (accounts.length !== 0) {
@@ -34,7 +39,10 @@ function WalletProvider({ children }: IProps) {
     }
 
     const connectToWallet = async () => {
-        if (!ethereum) return;
+        if (!ethereum) {
+            showNotification(ethereumNotFound);
+            return;
+        }
         try {
             const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
             setAccountAddress(accounts[0]);

@@ -9,6 +9,7 @@ import { getAllTransactions, getContract } from "./features/ether-transfer-contr
 import { useWalletContext } from "./features/crypto-wallet/WalletConnect";
 import NotificationBar from "./components/NotificationBar";
 import { useNotificationContext } from "./features/notification/NotificationContext";
+import { unknownErrorMsg } from "./utils/Constants";
 
 function App() {
   const [allTransactions, setAllTransactions] = useState<ethers.Event[]>([]);
@@ -20,9 +21,14 @@ function App() {
 
   useEffect(() => {
     loadAllTransactions();
-    const contract = getContract();
-    if (contract !== false) {
+    try {
+      const contract = getContract();
       contract.on('EthTransfer', loadAllTransactions);
+    } catch (error) {
+      if(error instanceof Error)
+        notification.showNotification(error.message);
+      else
+        notification.showNotification(unknownErrorMsg);
     }
   }, [])
 
@@ -42,7 +48,11 @@ function App() {
       .then((events) => {
         if (events.length > 0) setAllTransactions(events);
       })
-      .then(() => setTransactionsLoading(false));
+      .then(() => setTransactionsLoading(false))
+      .catch(error => {
+        if(error instanceof Error) notification.showNotification(error.message);
+        else notification.showNotification(unknownErrorMsg);
+      })
   }
 
   async function fetchAllTransactions(): Promise<ethers.Event[]> {

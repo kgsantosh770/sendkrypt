@@ -6,4 +6,8 @@ interface IEthWindow extends Window {
 }
 
 export const {ethereum} = window;
-export const  SEND_ETHER_CONTRACT_ABI = sendEtherJson.abi;
+export const SEND_ETHER_CONTRACT_ABI = sendEtherJson.abi;
+
+// messages
+export const ethereumNotFound = "Please install Metamask";
+export const unknownErrorMsg = "Something went wrong! Please try again later."
